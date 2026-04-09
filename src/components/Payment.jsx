@@ -1,7 +1,12 @@
+// Module-level order number counter for demo purposes
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Payment.css';
 
+/**
+ * @param {Object} props
+ * @param {Array<{id: string|number, name: string, price: number, quantity: number}>} [props.cartItems=[]]
+ */
 const Payment = ({ cartItems = [] }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,6 +20,9 @@ const Payment = ({ cartItems = [] }) => {
     cvv: ''
   });
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderNumber, setOrderNumber] = useState(null);
+
+
 
   const cartTotal = Array.isArray(cartItems) 
     ? cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 0)), 0) 
@@ -60,6 +68,8 @@ const Payment = ({ cartItems = [] }) => {
       }
     }
 
+    setOrderNumber('ORDER-0001');
+
     console.log('Order placed:', {
       cartItems,
       shippingData,
@@ -81,7 +91,9 @@ const Payment = ({ cartItems = [] }) => {
           <div className="success-icon">✓</div>
           <h1>Order Placed Successfully!</h1>
           <p>Thank you for your purchase. Your order has been confirmed.</p>
-          <p className="order-number">Order #: {Math.floor(Math.random() * 1000000)}</p>
+          {orderNumber !== null && (
+            <p className="order-number">Order #: {orderNumber}</p>
+          )}
           <p>You will be redirected to home page shortly...</p>
         </div>
       </div>

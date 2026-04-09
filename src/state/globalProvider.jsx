@@ -1,9 +1,13 @@
+import PropTypes from 'prop-types';
+GlobalProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 import { useState } from 'react';
 import GlobalContext from "./globalContext";
 
 function GlobalProvider(props) {
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState({ name: "Barney" });
+  const [user, _setUser] = useState({ name: "Barney" });
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Function to add a product to the cart

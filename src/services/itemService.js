@@ -64,7 +64,7 @@ export const refreshItems = async () => {
         available.includes(it.image) ? it : { ...it, image: null }
       );
     }
-  } catch (error) {
+  } catch {
     console.log('Image refresh skipped');
   }
   return [...items];

@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Button from '@mui/material/Button';
-
 import GlobalProvider from './state/globalProvider';
-import Navbar from './components/Navbar';
+import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Home from './components/Home';
 import About from './components/About';
@@ -23,13 +21,8 @@ function App() {
       <BrowserRouter>
         <div className={mode === 'dark' ? 'dark-mode' : 'light-mode'}>
           <FloatingImagesBackground />
-          <Navbar mode={mode} toggleMode={toggleMode} />
-          {/* Example Material UI Button for demonstration */}
-          <div className="d-flex justify-content-center my-3">
-            <Button variant="contained" color="primary">
-              Material UI Button
-            </Button>
-          </div>
+          <NavBar mode={mode} toggleMode={toggleMode} />
+          {/* Example Material UI Button removed */}
           <main className={mode === 'dark' ? 'bg-dark text-light py-4 px-5' : 'bg-light py-4 px-5'}>
             <Routes>
               <Route path='/' element={<Home />} />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Shipping.css';
 
-const Shipping = ({ cart = {} }) => {
+const Shipping = ({ cart: _cart = {} }) => {
   const navigate = useNavigate();
   const [shippingMethod, setShippingMethod] = useState('standard');
   const [formData, setFormData] = useState({

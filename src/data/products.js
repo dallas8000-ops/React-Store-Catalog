@@ -11,7 +11,8 @@ export const products = [
     discount: 18,
     stars: 4.5,
     description: 'Tactile blue switches with customizable RGB lighting.',
-    category: 'Keyboard'
+    category: 'Keyboard',
+    date: '2024-04-01'
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ export const products = [
     discount: 11,
     stars: 4.7,
     description: 'Crisp, high-resolution display for work and gaming.',
-    category: 'Monitor'
+    category: 'Monitor',
+    date: '2024-04-01'
   },
   {
     id: 3,
@@ -33,7 +35,8 @@ export const products = [
     discount: 25,
     stars: 4.6,
     description: '20,000 DPI sensor and ultra-lightweight design.',
-    category: 'Mouse'
+    category: 'Mouse',
+    date: '2024-04-02'
   },
   {
     id: 4,
@@ -42,7 +45,8 @@ export const products = [
     price: 79.99,
     stars: 4.2,
     description: 'Crystal clear video for meetings and streaming.',
-    category: 'Peripherals'
+    category: 'Peripherals',
+    date: '2024-04-02'
   },
   {
     id: 5,
@@ -51,7 +55,8 @@ export const products = [
     price: 24.50,
     stars: 4.5,
     description: 'Four port USB 3.0 hub for fast data transfer.',
-    category: 'Accessory'
+    category: 'Accessory',
+    date: '2024-04-03'
   },
   {
     id: 6,
@@ -62,7 +67,8 @@ export const products = [
     discount: 20,
     stars: 4.7,
     description: 'Track fitness, receive notifications, and more.',
-    category: 'Wearable'
+    category: 'Wearable',
+    date: '2024-04-03'
   },
   {
     id: 7,
@@ -71,7 +77,8 @@ export const products = [
     price: 85.00,
     stars: 4.9,
     description: 'Boost your PC performance with fast RAM.',
-    category: 'Component'
+    category: 'Component',
+    date: '2024-04-04'
   },
   {
     id: 8,
@@ -80,7 +87,8 @@ export const products = [
     price: 349.00,
     stars: 4.3,
     description: 'Large surface area for multiple monitors and gear.',
-    category: 'Furniture'
+    category: 'Furniture',
+    date: '2024-04-04'
   },
   {
     id: 9,
@@ -91,7 +99,8 @@ export const products = [
     discount: 18,
     stars: 4.8,
     description: 'Powerful performance with stunning display and long battery life.',
-    category: 'Laptop'
+    category: 'Laptop',
+    date: '2024-04-05'
   },
   {
     id: 10,
@@ -102,7 +111,8 @@ export const products = [
     discount: 13,
     stars: 4.7,
     description: 'High-performance drone with 4K camera and extended flight time.',
-    category: 'Drone'
+    category: 'Drone',
+    date: '2024-04-05'
   },
   {
     id: 11,
@@ -113,7 +123,8 @@ export const products = [
     discount: 9,
     stars: 4.9,
     description: 'Latest generation smartphone with advanced camera system.',
-    category: 'Phone'
+    category: 'Phone',
+    date: '2024-04-06'
   },
   {
     id: 12,
@@ -124,7 +135,8 @@ export const products = [
     discount: 14,
     stars: 4.6,
     description: 'Portable gaming with 3D display and exclusive titles.',
-    category: 'Gaming'
+    category: 'Gaming',
+    date: '2024-04-06'
   },
   {
     id: 13,
@@ -135,7 +147,8 @@ export const products = [
     discount: 11,
     stars: 4.7,
     description: 'Immersive virtual reality experience for gaming and entertainment.',
-    category: 'VR'
+    category: 'VR',
+    date: '2024-04-07'
   },
   {
     id: 14,
@@ -144,7 +157,8 @@ export const products = [
     price: 19.99,
     stars: 4.4,
     description: 'Stylish and secure card holder for your smartphone.',
-    category: 'Accessory'
+    category: 'Accessory',
+    date: '2024-04-07'
   },
   {
     id: 15,
@@ -155,7 +169,8 @@ export const products = [
     discount: 9,
     stars: 4.9,
     description: 'Next-generation gaming console with stunning graphics and exclusive games.',
-    category: 'Gaming'
+    category: 'Gaming',
+    date: '2024-04-08'
   },
   {
     id: 16,
@@ -166,6 +181,7 @@ export const products = [
     discount: 17,
     stars: 4.8,
     description: 'Advanced haptic feedback and adaptive trigger technology.',
-    category: 'Gaming'
+    category: 'Gaming',
+    date: '2024-04-08'
   }
 ];

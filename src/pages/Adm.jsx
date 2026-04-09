@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { IconUserShield } from '@tabler/icons-react';
+import { useState } from 'react';
 import '../styles/Admin.css';
+
+import { IconUserShield } from '@tabler/icons-react';
 
 function Adm() {
   const [couponCode, setCouponCode] = useState('');
@@ -20,6 +21,10 @@ function Adm() {
       setCouponDiscount('');
     }
   };
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
 
   const handleAddProduct = (e) => {
     e.preventDefault();
@@ -32,6 +37,17 @@ function Adm() {
     }
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Hardcoded credentials
+    if (username === 'admin' && password === 'password') {
+      setIsLoggedIn(true);
+      setLoginError('');
+    } else {
+      setLoginError('Invalid username or password');
+    }
+  };
+
   const handleDeleteCoupon = (index) => {
     setCoupons(coupons.filter((_, i) => i !== index));
   };
@@ -40,6 +56,44 @@ function Adm() {
     setProducts(products.filter((_, i) => i !== index));
   };
 
+  if (!isLoggedIn) {
+    return (
+      <main className="admin-container">
+        <section className="admin-header">
+          <h1>Admin Login</h1>
+        </section>
+        <section className="admin-content">
+          <form onSubmit={handleLogin} className="admin-form" style={{maxWidth: 400, margin: '0 auto'}}>
+            <div className="form-group mb-3">
+              <label htmlFor="username" className="form-label">Username</label>
+              <input
+                type="text"
+                id="username"
+                className="form-control"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                autoComplete="username"
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="password" className="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                className="form-control"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+              />
+            </div>
+            {loginError && <div className="alert alert-danger">{loginError}</div>}
+            <button type="submit" className="btn btn-primary w-100">Login</button>
+          </form>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="admin-container">
       <section className="admin-header">
@@ -47,7 +101,6 @@ function Adm() {
       </section>
 
       <section className="admin-content">
-        
         <div className="d-flex gap-4">
           <section className="w-50">
             <div className="card mb-4">

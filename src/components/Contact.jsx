@@ -31,7 +31,7 @@ const Contact = () => {
     <div className="contact-container">
       <section className="contact-header">
         <h1>📧 Contact Us</h1>
-        <p>We'd love to hear from you. Get in touch with our team!</p>
+          <p>We&apos;d love to hear from you. Get in touch with our team!</p>
       </section>
 
       <div className="contact-content">

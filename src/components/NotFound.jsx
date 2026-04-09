@@ -10,7 +10,7 @@ function NotFound() {
         <NotFoundIllustration />
       </div>
       <h1>404 – Page Not Found</h1>
-      <p className="text-secondary fs-5">Oops! The page you're looking for doesn't exist.</p>
+        <p className="text-secondary fs-5">Oops! The page you&apos;re looking for doesn&apos;t exist.</p>
       <Link className="btn btn-dark" to="/">Go Home</Link>
     </div>
   )

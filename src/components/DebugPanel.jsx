@@ -9,13 +9,17 @@ const DebugPanel = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    const availableImages = getAvailableImages();
-    setImages(availableImages);
-    
     // Use getItems() to fetch items data
     getItems().then(itemsData => {
       setItems(itemsData);
     });
+  }, []);
+
+  useEffect(() => {
+    // setImages should only be called after mount, not synchronously
+    setTimeout(() => {
+      setImages(getAvailableImages());
+    }, 0);
   }, []);
 
   const handleRefresh = () => {
