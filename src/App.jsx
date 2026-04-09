@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from '@mui/material/Button';
 
 import GlobalProvider from './state/globalProvider';
 import Navbar from './components/Navbar';
@@ -24,6 +24,12 @@ function App() {
         <div className={mode === 'dark' ? 'dark-mode' : 'light-mode'}>
           <FloatingImagesBackground />
           <Navbar mode={mode} toggleMode={toggleMode} />
+          {/* Example Material UI Button for demonstration */}
+          <div className="d-flex justify-content-center my-3">
+            <Button variant="contained" color="primary">
+              Material UI Button
+            </Button>
+          </div>
           <main className={mode === 'dark' ? 'bg-dark text-light py-4 px-5' : 'bg-light py-4 px-5'}>
             <Routes>
               <Route path='/' element={<Home />} />
