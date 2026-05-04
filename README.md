@@ -75,6 +75,30 @@ This app is **Vite + React**, not plain static HTML. **Do not use “Live Server
 - **Root** `.env.example` — optional `VITE_API_URL` when the UI is not served behind the same host as the API.
 - **Server** `server/env.example` — `DATABASE_URL`, `JWT_SECRET`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`.
 
+## Deploying on Render (PostgreSQL + API)
+
+1. **Create PostgreSQL** in the Render dashboard (**New → PostgreSQL**). After it is ready, open the database and copy **Internal Database URL** (use **External** only if your API will not run on Render in the same region/plan that can reach internal URLs).
+
+2. **Create a Web Service** for this repo (same GitHub project). Example:
+   - **Build command:** `cd server && npm ci`
+   - **Start command:** `cd server && node index.js`  
+     Render injects **`PORT`**; the server reads it automatically.
+
+3. **Environment variables** on that Web Service (match `server/env.example`):
+   - **`DATABASE_URL`** — paste the URL from step 1.
+   - **`JWT_SECRET`**, **`ADMIN_USERNAME`**, **`ADMIN_PASSWORD`** — set strong values for production.
+   - **`CORS_ORIGIN`** — your deployed frontend origin(s), e.g. `https://your-frontend.onrender.com` (comma-separated for several).
+
+   The API enables **TLS for `pg`** when `DATABASE_URL` is not localhost / Docker `db`. To override, set **`DATABASE_SSL=true`** or **`DATABASE_SSL=false`**.
+
+4. **Migrate and seed once** (Render **Shell** on the Web Service, or a one-off deploy script):
+
+   ```sh
+   cd server && npm run db:setup
+   ```
+
+5. **Frontend (Static Site)** — build with `npm ci && npm run build`, publish **`dist`**, and set **`VITE_API_URL`** to your API’s public `https://…` origin (no trailing slash) so the browser can call the API from another Render hostname.
+
 ## Tech stack
 
 - React 19, React Router, Framer Motion, Bootstrap
@@ -85,8 +109,8 @@ This app is **Vite + React**, not plain static HTML. **Do not use “Live Server
 ## Project structure
 
 - `src/components/` — UI (Catalog, ItemCard, ProductModal, …)
-- `src/config/apiBase.js` — API base URL helper
-- `src/services/itemService.js` — `GET /api/products`
+- `src/config/apiBase.ts` — API base URL helper
+- `src/services/itemService.ts` — `GET /api/products`
 - `server/` — REST API, migrations, seed data (`server/seed/products.json`)
 - `.github/workflows/ci.yml` — lint, test, build, server syntax check
 
