@@ -75,16 +75,49 @@ This app is **Vite + React**, not plain static HTML. **Do not use “Live Server
 - **Root** `.env.example` — optional `VITE_API_URL` when the UI is not served behind the same host as the API.
 - **Server** `server/env.example` — `DATABASE_URL`, `JWT_SECRET`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`.
 
-## Deploying on Render (PostgreSQL + API)
+## Deploying on Render (fill the dashboard like this)
 
-Short version:
+**A — PostgreSQL (New → PostgreSQL)**  
+After it is live: open the database → **Connections** → copy **Internal Database URL** (you will paste it as one row in step B).
 
-1. **PostgreSQL** → copy **Internal Database URL** → use as **`DATABASE_URL`** on the API.
-2. **Web Service** (API): build `cd server && npm ci`, start `cd server && node index.js`, set env vars (`DATABASE_URL`, `JWT_SECRET`, `ADMIN_*`, **`CORS_ORIGIN`** = your static site URL).
-3. After first deploy: **Shell** → `cd server && npm run db:setup`.
-4. **Static Site**: build `npm ci && npm run build`, publish **`dist`**, set **`VITE_API_URL`** = public API `https://…` origin (no trailing slash).
+**B — Web Service = API (New → Web Service, this repo)**  
+Under **Settings** (or during setup), set:
 
-**Full step-by-step** (URLs, health checks, CORS, cold starts, custom domains, troubleshooting): **[docs/DEPLOY-RENDER.md](docs/DEPLOY-RENDER.md)**.
+| Field | Value |
+|--------|--------|
+| **Build Command** | `cd server && npm ci` |
+| **Start Command** | `cd server && node index.js` |
+
+Under **Environment** → **Add Environment Variable**, add each **Key** / **Value**:
+
+| Key | Value |
+|-----|--------|
+| `DATABASE_URL` | Paste the **Internal Database URL** from A (full `postgresql://…` string). |
+| `JWT_SECRET` | Long random secret (16+ characters). |
+| `ADMIN_USERNAME` | e.g. `admin` |
+| `ADMIN_PASSWORD` | Your admin password (5+ characters in this project). |
+| `CORS_ORIGIN` | Your **frontend** URL only, e.g. `https://YOUR-STATIC-SITE.onrender.com` (add after step C, or update later). |
+
+Do **not** set `PORT` — Render sets it. Save, deploy. Then **Shell** on this service once: `cd server && npm run db:setup`.
+
+**C — Static Site = frontend (New → Static Site, same repo)**  
+
+| Field | Value |
+|--------|--------|
+| **Build Command** | `npm ci && npm run build` |
+| **Publish directory** | `dist` |
+
+**Environment** (build-time):
+
+| Key | Value |
+|-----|--------|
+| `VITE_API_URL` | Your **API** public URL, e.g. `https://YOUR-API.onrender.com` (no `/` at the end). |
+
+Deploy. Go back to **B** and set **`CORS_ORIGIN`** to the **exact** static site URL (same as **C**), redeploy API if you changed it.
+
+---
+
+No image was attached to this chat—if your Render screen uses different labels, send the screenshot again or list the field names you see.
 
 ## Tech stack
 
