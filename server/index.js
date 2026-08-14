@@ -231,6 +231,36 @@ app.put(
   }
 );
 
+/** Vite production output (`npm run build` at repo root). */
+const DIST_DIR = path.join(__dirname, '..', 'dist');
+let distReady = false;
+
+async function attachFrontend() {
+  try {
+    const stat = await fs.stat(path.join(DIST_DIR, 'index.html'));
+    if (!stat.isFile()) return;
+    distReady = true;
+    app.use(express.static(DIST_DIR, { index: false }));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api')) return next();
+      res.sendFile(path.join(DIST_DIR, 'index.html'));
+    });
+    console.log(`Serving frontend from ${DIST_DIR}`);
+  } catch {
+    app.get('/', (_req, res) => {
+      res.json({
+        service: 'React Store Catalog API',
+        status: 'online',
+        message: 'Frontend build not found. From repo root run: npm ci && npm run build',
+        api: '/api/',
+      });
+    });
+    console.warn(
+      `No frontend at ${DIST_DIR}. API only until you run "npm run build" at the repo root (Render: build frontend before "cd server && node index.js").`
+    );
+  }
+}
+
 async function start() {
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL is required');
@@ -239,8 +269,10 @@ async function start() {
     throw new Error('JWT_SECRET must be set to at least 16 characters');
   }
   await initAuth();
+  await attachFrontend();
   const server = app.listen(PORT, () => {
-    console.log(`API listening on http://localhost:${PORT}`);
+    const mode = distReady ? 'API + frontend' : 'API only (no dist/)';
+    console.log(`${mode} listening on http://localhost:${PORT}`);
   });
   server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {

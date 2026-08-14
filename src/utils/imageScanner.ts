@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import { apiUrl } from '../config/apiBase';
 import type { Product } from '../types/models';
 

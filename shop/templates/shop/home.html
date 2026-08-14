@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div>
+    <span class="tier-badge">Pro edition</span>
+    <p class="hero__eyebrow">Premium tech &amp; accessories</p>
+    <h1>{{ store_name }}</h1>
+    <p class="hero__lead">Discover keyboards, monitors, gaming gear, and more — {{ product_count }} products in stock.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'shop:catalog' %}">Shop catalog</a>
+  </div>
+  <div class="hero__image">
+    <img src="https://images.unsplash.com/photo-1537498425277-c283d32ef9db?w=700&auto=format&fit=crop&q=60" alt="Technology workspace">
+  </div>
+</section>
+<section class="feature-grid">
+  <div class="feature-card">
+    <h3>Wide selection</h3>
+    <p>Browse our full collection of computer gadgets and accessories.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Competitive pricing</h3>
+    <p>Quality products with clear pricing and seasonal discounts.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Fast shipping</h3>
+    <p>Reliable delivery options at checkout.</p>
+  </div>
+</section>
+{% endblock %}

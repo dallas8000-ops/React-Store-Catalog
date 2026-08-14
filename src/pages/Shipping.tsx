@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import FloatingImagesBackground from '../components/FloatingImagesBackground';
 import { useNavigate } from 'react-router-dom';
 import GlobalContext from '../state/globalContext';
 import '../styles/Shipping.css';
@@ -33,8 +32,7 @@ export default function Shipping() {
   };
 
   return (
-      <div className="shipping-container" style={{ position: 'relative', zIndex: 1 }}>
-        <FloatingImagesBackground />
+      <div className="shipping-container">
         <h2>Shipping & Payment</h2>
         <div className="shipping-section">
           <h3>Choose Shipping Method</h3>

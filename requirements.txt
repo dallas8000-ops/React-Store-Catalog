@@ -1,0 +1,13 @@
+# Production stack — pin major versions for reproducible deploys
+Django>=5.1,<5.3
+django-environ>=0.11,<0.13
+whitenoise[brotli]>=6.8,<7
+gunicorn>=23.0,<26
+psycopg[binary]>=3.2,<4
+django-htmx>=1.21,<2
+Pillow>=10.0,<12
+
+# Development / CI
+pytest>=8.3,<9
+pytest-django>=4.9,<5
+ruff>=0.8,<0.10

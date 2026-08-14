@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ store_name }}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/store-theme.css' %}">
+  {% block extra_css %}{% endblock %}
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-brand" href="{% url 'shop:home' %}">
+          <span>CG</span> {{ store_name }}
+        </a>
+        <button type="button" class="nav-toggle" aria-label="Menu" data-nav-toggle>&#9776;</button>
+        <nav class="site-nav" id="site-nav" aria-label="Main">
+          <a href="{% url 'shop:home' %}" {% if request.path == '/' %}class="is-active"{% endif %}>Home</a>
+          <a href="{% url 'shop:about' %}" {% if '/about' in request.path %}class="is-active"{% endif %}>About</a>
+          <a href="{% url 'shop:catalog' %}" {% if '/catalog' in request.path %}class="is-active"{% endif %}>Catalog</a>
+          {% if user.is_staff %}
+          <a href="{% url 'shop:admin_dashboard' %}" class="btn-admin{% if '/store-admin' in request.path %} is-active{% endif %}">Admin</a>
+          {% else %}
+          <a href="{% url 'shop:admin_login' %}" class="btn-admin{% if '/store-admin' in request.path %} is-active{% endif %}">Admin</a>
+          {% endif %}
+          <form method="post" action="{% url 'shop:theme_toggle' %}" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button type="submit" class="btn-theme">
+              {% if theme == 'dark' %}Light{% else %}Dark{% endif %}
+            </button>
+          </form>
+          <span class="site-user">{{ store_user_label }}</span>
+          <a href="{% url 'shop:cart' %}" class="site-nav__cart">
+            Cart
+            <span id="cart-badge">{% include "shop/partials/cart_badge.html" %}</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    {% if messages %}
+    <div class="messages-wrap">
+      {% for message in messages %}
+      <div class="alert-store {{ message.tags|default:'info' }}" role="alert">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="site-main">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <p class="mb-0">&copy; {% now "Y" %} {{ store_name }}. All rights reserved.</p>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="{% url 'shop:catalog' %}">Shop</a>
+          <a href="{% url 'shop:about' %}">About</a>
+          <a href="{% url 'shop:admin_login' %}">Staff login</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script>
+    document.querySelector('[data-nav-toggle]')?.addEventListener('click', function () {
+      document.getElementById('site-nav')?.classList.toggle('is-open');
+    });
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

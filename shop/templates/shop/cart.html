@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if not lines %}
+<div class="card empty-state">
+  <h2>Your cart is empty</h2>
+  <p>Add items from the catalog to get started.</p>
+  <a href="{% url 'shop:catalog' %}" class="btn btn-primary">Browse catalog</a>
+</div>
+{% else %}
+<div class="cart-panel">
+  <div class="cart-panel__header">
+    <h1 style="margin:0;font-size:1.25rem;">Shopping cart</h1>
+    <form method="post" action="{% url 'shop:cart_clear' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger btn-sm">Clear cart</button>
+    </form>
+  </div>
+  {% for line in lines %}
+  <div class="cart-line">
+    <img class="cart-line__thumb" src="{{ line.product.image_url }}" alt="{{ line.product.name }}"
+         onerror="this.src='/images/Placeholder.jpg';">
+    <div>
+      <span class="cart-line__name">{{ line.product.name }}</span>
+      <span class="cart-line__unit">${{ line.product.price }} each</span>
+    </div>
+    <span class="cart-line__price">${{ line.line_total }}</span>
+    <div class="cart-line__controls">
+      <form method="post" action="{% url 'shop:cart_update' line.product.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="dec">
+        <button type="submit" class="btn btn-secondary btn-sm" {% if line.quantity <= 1 %}disabled{% endif %}>−</button>
+      </form>
+      <form method="post" action="{% url 'shop:cart_update' line.product.id %}">
+        {% csrf_token %}
+        <input type="number" name="quantity" value="{{ line.quantity }}" min="1" class="qty-input"
+               onchange="this.form.submit()">
+      </form>
+      <form method="post" action="{% url 'shop:cart_update' line.product.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="inc">
+        <button type="submit" class="btn btn-secondary btn-sm">+</button>
+      </form>
+      <form method="post" action="{% url 'shop:cart_remove' line.product.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="cart-panel__footer">
+    <span class="cart-total">Total: ${{ cart_total }}</span>
+    <a href="{% url 'shop:shipping' %}" class="btn btn-accent">Proceed to shipping</a>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

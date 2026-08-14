@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="catalog-page">
+<header class="page-header">
+  <span class="tier-badge">Pro catalog</span>
+  <h1>Product catalog</h1>
+  <p>{{ product_count }} products · showing {{ filtered_count }}{% if search_query or active_category %} filtered{% endif %}</p>
+</header>
+
+<form class="catalog-toolbar" method="get" action="{% url 'shop:catalog' %}">
+  <input type="search" name="q" value="{{ search_query }}" placeholder="Search products…" class="catalog-toolbar__search" aria-label="Search">
+  <select name="category" class="catalog-toolbar__select" aria-label="Category">
+    <option value="">All categories</option>
+    {% for cat in categories %}
+    <option value="{{ cat }}" {% if cat == active_category %}selected{% endif %}>{{ cat }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+  {% if search_query or active_category %}
+  <a href="{% url 'shop:catalog' %}" class="btn btn-outline btn-sm">Clear</a>
+  {% endif %}
+</form>
+
+{% for group_date, products in product_groups %}
+<section class="catalog-section">
+  <h2 class="catalog-section__date">{{ group_date }}</h2>
+  <div class="product-grid">
+    {% for product in products %}
+    <article class="product-card">
+      <a href="{% url 'shop:catalog' %}?product={{ product.id }}" class="product-card__image">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"
+             onerror="this.src='/images/Placeholder.jpg';">
+      </a>
+      <div class="product-card__body">
+        <p class="product-card__category">{{ product.category }}</p>
+        <h3 class="product-card__title">
+          <a href="{% url 'shop:catalog' %}?product={{ product.id }}">{{ product.name }}</a>
+        </h3>
+        <div class="product-card__meta">
+          <span class="product-card__price">${{ product.price }}</span>
+          {% if product.discount %}<span class="badge-discount">-{{ product.discount }}%</span>{% endif %}
+        </div>
+        <p class="product-card__rating">★ {{ product.stars }}</p>
+        <div class="product-card__actions">
+          <form method="post" action="{% url 'shop:cart_add' product.id %}"
+                hx-post="{% url 'shop:cart_add' product.id %}" hx-target="#cart-badge" hx-swap="innerHTML">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="btn btn-primary btn-sm">Add to cart</button>
+          </form>
+          <a class="btn btn-outline btn-sm" href="{% url 'shop:catalog' %}?product={{ product.id }}">Details</a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% empty %}
+<div class="card empty-state">
+  <p>No products yet. Run <code>python manage.py seed_products</code> or add items in admin.</p>
+</div>
+{% endfor %}
+</div>
+
+{% if active_product %}
+<div class="product-modal" role="dialog" aria-modal="true">
+  <div class="product-modal__panel">
+    <div class="product-modal__header">
+      <h2>{{ active_product.name }}</h2>
+      <a href="{% url 'shop:catalog' %}" class="product-modal__close" aria-label="Close">&times;</a>
+    </div>
+    <div class="product-modal__body">
+      <img src="{{ active_product.image_url }}" alt="{{ active_product.name }}"
+           onerror="this.src='/images/Placeholder.jpg';">
+      <p>{{ active_product.description }}</p>
+      <p><strong>${{ active_product.price }}</strong> · {{ active_product.category }}</p>
+      <form method="post" action="{% url 'shop:cart_add' active_product.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Add to cart</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

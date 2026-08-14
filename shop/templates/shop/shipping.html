@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+  <h1>Shipping &amp; checkout</h1>
+  <p>Review your order and complete checkout (demo).</p>
+</header>
+<div class="card">
+  <form method="post">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend style="font-weight:600;margin-bottom:0.75rem;">Shipping method</legend>
+      <label class="d-block" style="margin-bottom:0.5rem;"><input type="radio" name="carrier" value="fedex" checked> FedEx — $12.99</label>
+      <label class="d-block" style="margin-bottom:0.5rem;"><input type="radio" name="carrier" value="dhl"> DHL — $14.50</label>
+      <label class="d-block"><input type="radio" name="carrier" value="usps"> USPS — $9.99</label>
+    </fieldset>
+    <fieldset class="form-group">
+      <legend style="font-weight:600;margin-bottom:0.75rem;">Payment</legend>
+      <label class="d-block" style="margin-bottom:0.5rem;"><input type="radio" name="payment" value="card" checked> Credit card</label>
+      <label class="d-block"><input type="radio" name="payment" value="paypal"> PayPal</label>
+    </fieldset>
+    <p class="cart-total">Subtotal: ${{ subtotal }}</p>
+    <p class="cart-total">Order total: ${{ order_total }}</p>
+    <button type="submit" class="btn btn-primary btn-lg">Place order</button>
+  </form>
+</div>
+{% endblock %}
